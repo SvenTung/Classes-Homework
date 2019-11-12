@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class SportsTeam
-  attr_accessor :team_name, :players, :coach
-  attr_reader :points
+
+  attr_accessor :coach
+  attr_reader :team_name, :players
 
   def initialize(input_team_name, input_players, input_coach)
     @team_name = input_team_name
@@ -13,7 +14,7 @@ class SportsTeam
 
   def add_new_player(new_player)
     @players.push(new_player)
-    return @players
+    return @players.length
   end
 
   def check_player_name(player_name)
@@ -22,6 +23,10 @@ class SportsTeam
     else
       'No'
     end
+  end
+
+  def set_coach(name)
+    @coach = name
   end
 
   def update_points(result)

@@ -4,9 +4,25 @@ require_relative('../Extension.rb')
 
 class TestBankAccount < MiniTest::Test
 
-  def test_get_book_details
-    lord_of_the_rings = Library.new("Lord of the Rings", "Ben", "23/10/19")
-    result = lord_of_the_rings.get_book_details
+  def setup
+    books = [
+      {title: "Lord of the Rings",
+        rental_details: {
+          student_name: "Ben",
+          date: "23/10/19"}
+      },
+      {title: "Mister Monday",
+        rental_details: {
+          student_name: "Sven",
+          date: "07/12/19"
+      }}
+      ]
+
+      @Library = Library.new(books)
+  end
+
+  def test_get_first_book_details
+    result = @Library.get_first_book_details
     assert_equal({
     title: "Lord of the Rings",
       rental_details:
@@ -16,8 +32,7 @@ class TestBankAccount < MiniTest::Test
   end
 
   def test_search_book_details
-    lord_of_the_rings = Library.new("Lord of the Rings", "Ben", "23/10/19")
-    result = lord_of_the_rings.search_book_details("Lord of the Rings")
+    result = @Library.search_book_details("Lord of the Rings")
     assert_equal({
     title: "Lord of the Rings",
       rental_details:
@@ -27,28 +42,24 @@ class TestBankAccount < MiniTest::Test
   end
 
   def test_search_rental_details
-    lord_of_the_rings = Library.new("Lord of the Rings", "Ben", "23/10/19")
-    result = lord_of_the_rings.search_rental_details("Lord of the Rings")
+    result = @Library.search_rental_details("Lord of the Rings")
     assert_equal(
       {student_name: "Ben",
         date: "23/10/19"}, result)
   end
 
   def test_add_new_book
-    lord_of_the_rings = Library.new("Lord of the Rings", "Ben", "23/10/19")
-    result = lord_of_the_rings.add_new_book("Mister Monday")
+    result = @Library.add_new_book("The Fall")
     assert_equal({
-    title: "Mister Monday",
+    title: "The Fall",
       rental_details:
-      {student_name: "",
-        date: ""}
-    } ,result)
+        {student_name: "",
+        date: ""
+      }} ,result)
   end
 
   def test_change_rental_details
-    lord_of_the_rings = Library.new("Lord of the Rings", "Ben", "23/10/19")
-    lord_of_the_rings.change_rental_details("Lord of the Rings", "Laurie", "30/11/19")
-    result = lord_of_the_rings.search_book_details("Lord of the Rings")
+    result = @Library.change_rental_details("Lord of the Rings", "Laurie", "30/11/19")
     assert_equal({
     title: "Lord of the Rings",
       rental_details:

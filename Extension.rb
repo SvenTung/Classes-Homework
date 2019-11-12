@@ -1,57 +1,53 @@
+require "pp"
 class Library
 
-  def initialize(input_title, input_student_name, input_date)
-    @title = input_title
-    @student_name = input_student_name
-    @date = input_date
-
-    @book_details = {
-      title: @title,
-      rental_details: {
-        student_name: @student_name,
-        date: @date
-      },
-    }
+  def initialize(books)
+    @book_details = books
   end
 
-  def get_book_details
-    return @book_details
+  def get_first_book_details
+    return @book_details[0]
   end
 
   def search_book_details(book_name)
-    if @book_details.has_value?(book_name)
-      return @book_details
-    else
-      return false
+    for book in @book_details
+      if book.has_value?(book_name)
+        return book
+      end
     end
+    return false
   end
 
   def search_rental_details(book_name)
-    if @book_details.has_value?(book_name)
-      return @book_details[:rental_details]
-    else
-      return false
+    for book in @book_details
+      if book.has_value?(book_name)
+        return book[:rental_details]
+      end
     end
+    return false
   end
 
   def add_new_book(book_name)
-    @book_details = {
+    @book_details.push({
       title: book_name,
       rental_details: {
         student_name: "",
-        date: ""}}
+        date: ""}})
+    return search_book_details("The Fall")
   end
 
   def change_rental_details(book_name, student, date)
-    if @book_details.has_value?(book_name)
-      @book_details = {
-        title: @title,
-        rental_details: {
-          student_name: student,
-          date: date}}
-    else
-      return false
+    for book in @book_details
+      if book.has_value?(book_name)
+        book = {
+          title: book_name,
+          rental_details: {
+            student_name: student,
+            date: date}}
+            return book
+      end
     end
+    return false
   end
 
 end
